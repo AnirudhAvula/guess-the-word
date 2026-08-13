@@ -1,111 +1,562 @@
+/* ==========================================================================
+   Guess the Word — stylesheet
+   Clean, friendly UI: light neutral background, blue accent, simple sans
+   type throughout. Letter tiles are the one distinctive touch.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap');
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --ink: #1F2937;
+  --ink-soft: #6B7280;
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --line: #E5E7EB;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --accent: #2563EB;
+  --accent-dark: #1D4ED8;
+  --accent-bg: #EFF4FF;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --correct: #16A34A;
+  --correct-bg: #E8F7EC;
+  --present: #D97706;
+  --present-bg: #FDF0DA;
+  --absent: #9CA3AF;
+  --absent-bg: #F1F2F4;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --danger: #DC2626;
+
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius: 10px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 2px rgba(31, 41, 55, 0.04), 0 6px 16px -8px rgba(31, 41, 55, 0.12);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
+h1, h2 {
+  font-family: var(--font-body);
+  color: var(--ink);
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+select {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+}
+
+input::placeholder {
+  color: #A6ACB8;
+}
+
+label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 1rem 0 0.4rem;
+}
+
+/* ------------------------------------------------------------------------
+   Primary / secondary buttons (shared)
+   ------------------------------------------------------------------------ */
+
+.start-button,
+.guess-input-section button,
+.report-container button,
+form button[type="submit"] {
+  background: var(--accent);
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.95rem;
+}
+
+.start-button:hover,
+.guess-input-section button:hover,
+.report-container button:hover,
+form button[type="submit"]:hover {
+  background: var(--accent-dark);
+}
+
+.secondary-button,
+.logout-button {
+  background: var(--surface);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.secondary-button:hover,
+.logout-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------------
+   Auth (Login / Register)
+   ------------------------------------------------------------------------ */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.25rem 2rem;
+  text-align: center;
+}
+
+.auth-box h1 {
+  margin-bottom: 0.25rem;
+}
+
+.auth-box h2 {
+  margin-bottom: 1.5rem;
+}
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.auth-box form input {
+  text-align: left;
+}
+
+.auth-box form button {
+  margin-top: 0.4rem;
+}
+
+.auth-box p {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.auth-box .secondary-button {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.success {
+  color: var(--correct);
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+/* ------------------------------------------------------------------------
+   Shared header pattern (Game + Admin) — flex-based, wraps instead of
+   overlapping when the username is long or the viewport is narrow.
+   ------------------------------------------------------------------------ */
+
+.game-header,
+.admin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.game-header > *:first-child,
+.admin-header > *:first-child {
+  min-width: 0;
+}
+
+.game-header h1,
+.admin-header h1 {
+  overflow-wrap: anywhere;
+}
+
+.game-header p,
+.admin-header p {
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  overflow-wrap: anywhere;
+}
+
+.game-header .logout-button,
+.admin-header .logout-button {
+  margin-left: auto;
+}
+
+/* ------------------------------------------------------------------------
+   Game
+   ------------------------------------------------------------------------ */
+
+.game-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  color: var(--ink-soft);
+}
+
+.game-info strong {
+  color: var(--ink);
+}
+
+.start-section {
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2.5rem 1.5rem;
+}
+
+.start-section h2 {
+  margin-bottom: 1.25rem;
+}
+
+/* Letter tiles */
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.guess-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+}
+
+.letter {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.letter.green {
+  background: var(--correct-bg);
+  border-color: var(--correct);
+  color: var(--correct);
+}
+
+.letter.orange {
+  background: var(--present-bg);
+  border-color: var(--present);
+  color: var(--present);
+}
+
+.letter.grey {
+  background: var(--absent-bg);
+  border-color: var(--absent);
+  color: var(--ink-soft);
+}
+
+.letter.empty {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.guess-input-section {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.guess-input-section input {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.guess-input-section button {
+  flex-shrink: 0;
+}
+
+.game-result {
+  text-align: center;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.game-message {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.game-error {
+  color: var(--danger);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.game-container > .start-button {
+  display: block;
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------------------
+   Admin dashboard
+   ------------------------------------------------------------------------ */
+
+.admin-dashboard {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem;
+}
+
+.admin-tab {
+  flex: 1;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+}
+
+.admin-tab:hover {
+  color: var(--ink);
+}
+
+.admin-tab.active {
+  color: var(--accent);
+  background: var(--accent-bg);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------------
+   Reports
+   ------------------------------------------------------------------------ */
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-description {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.report-container > button,
+.report-container > select,
+.report-container > input {
+  margin-top: 0.4rem;
+}
+
+.report-container > button {
+  align-self: flex-start;
+  margin-top: 1.1rem;
+}
+
+.report-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.report-results,
+.user-report-results {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.report-results h2,
+.user-report-results h2 {
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.report-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.report-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+}
+
+.report-number {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.report-label {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-top: 0.35rem;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.report-table th,
+.report-table td {
+  text-align: left;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.report-table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  background: var(--bg);
+  font-weight: 600;
+}
+
+.report-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.report-table tbody tr:hover {
+  background: var(--bg);
+}
+
+/* ------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------ */
+
+@media (max-width: 480px) {
+  .letter {
+    font-size: 1.1rem;
+  }
+
+  .report-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .game-header .logout-button,
+  .admin-header .logout-button {
+    margin-left: 0;
+  }
 }
