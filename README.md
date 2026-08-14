@@ -241,6 +241,13 @@ The admin account can then be used to access the Admin Dashboard.
 
 Normal registration creates only `PLAYER` accounts.
 
+Default admin credentials:
+
+```text
+Username: Admin
+Password: Admin1$
+```
+
 ### ▶️ Run the Backend
 
 From the backend directory:
